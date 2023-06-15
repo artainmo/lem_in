@@ -40,7 +40,7 @@ static int double_room_name(t_antFarm *af, char *name)
   return occurence > 1 ? 1 : 0;
 }
 
-void room_verif(t_antFarm *af, t_room *iter1)
+static void room_verif(t_antFarm *af, t_room *iter1)
 {
   //Verify no rooms with same name exist
   if (double_room_name(af, iter1->name))
