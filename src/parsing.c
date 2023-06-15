@@ -1,15 +1,92 @@
 #include "../lem_in.h"
 
+static int double_room_coordinate(t_antFarm *af, int x, int y)
+{
+  t_room *iter;
+  int occurence;
+
+  occurence = 0;
+  iter = af->rooms;
+  if (af->start_room->pos_x == x && af->start_room->pos_y == y)
+    occurence++;
+  if (af->end_room->pos_x == x && af->end_room->pos_y == y)
+    occurence++;
+  while (iter)
+  {
+    if (iter->pos_x == x && iter->pos_y == y)
+      occurence++;
+    iter = iter->next;
+  }
+  return occurence > 1 ? 1 : 0;
+}
+
+static int double_room_name(t_antFarm *af, char *name)
+{
+  t_room *iter;
+  int occurence;
+
+  occurence = 0;
+  iter = af->rooms;
+  if (ft_strcmp(name, af->start_room->name))
+    occurence++;
+  if (ft_strcmp(name, af->end_room->name))
+    occurence++;
+  while (iter)
+  {
+    if (ft_strcmp(name, iter->name))
+      occurence++;
+    iter = iter->next;
+  }
+  return occurence > 1 ? 1 : 0;
+}
+
+void room_verif(t_antFarm *af, t_room *iter1)
+{
+  //Verify no rooms with same name exist
+  if (double_room_name(af, iter1->name))
+    ft_error("lem-in: Error: Double room name.\n");
+  //Verify no room's name start with L or are empty
+  if (ft_strlen(iter1->name) < 1 || iter1->name[0] == 'L')
+    ft_error("lem-in: Error: Invalid room name.\n");
+  //Verify rooms have positive coordinates
+  if (iter1->pos_x < 0 || iter1->pos_y < 0)
+    ft_error("lem-in: Error: Invalid room coordinate.\n");
+  //Verify no rooms are on same coordinate
+  if (double_room_coordinate(af, iter1->pos_x, iter1->pos_y))
+    ft_error("lem-in: Error: Double room coordinate.\n");
+}
+
 static void verify_antFarm(t_antFarm *af)
 {
-  (void)af;
+  t_room *iter1;
+  t_tunnel *iter2;
+
   //Verify existence of start_room, end_room and at least one tunnel
-  //Verify no rooms with same name exist
-  //Verify no room's name start with L
-  //Verify rooms have positive coordinates
-  //Verify no rooms are on same coordinate
-  //Verify all tunnels connect existing rooms
-  //Verify all tunnels do not connect to same room
+  if (!af->start_room)
+    ft_error("lem-in: Error: Missing starting room.\n");
+  if (!af->end_room)
+    ft_error("lem-in: Error: Missing end room.\n");
+  if (!af->tunnels)
+    ft_error("lem-in: Error: Missing tunnels.\n");
+  room_verif(af, af->start_room);
+  room_verif(af, af->end_room);
+  iter1 = af->rooms;
+  while (iter1)
+  {
+    room_verif(af, iter1);
+    iter1 = iter1->next;
+  }
+  iter2 = af->tunnels;
+  while (iter2)
+  {
+    //Verify all tunnels connect existing rooms
+    if (!get_room(af, iter2->room1) || !get_room(af, iter2->room2))
+        ft_error("lem-in: Error: Tunnel connects to non-existent room.\n");
+    //Verify a tunnel does not connect between same room
+    if (ft_strcmp(iter2->room1, iter2->room2))
+      ft_error("lem-in: Error: Tunnel connects back to same room.\n");
+    iter2 = iter2->next;
+  }
 }
 
 static void verify_input_line(t_antFarm *af, char *line, char *status)
