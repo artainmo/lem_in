@@ -1,0 +1,5 @@
+*.swp
+*.o
+*.a
+lem-in
+.DS_Store
