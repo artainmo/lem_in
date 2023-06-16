@@ -1,6 +1,6 @@
 #include "../lem_in.h"
 
-void view_stacks(t_room **queue, t_room **visited)
+void view_stacks(t_room **queue, t_room **visited, t_room **origin)
 {
   int i;
 
@@ -8,12 +8,12 @@ void view_stacks(t_room **queue, t_room **visited)
   ft_printf("Visited:\n");
   while (visited[i])
   {
-    ft_printf("  %s", visited[i]->name);
+    ft_printf("  %s:%s", origin[i]->name, visited[i]->name);
     i++;
   }
   ft_printf("\n");
   i = 0;
-  ft_printf("Queue:\n");
+  ft_printf("Queue/Stack:\n");
   while (queue[i])
   {
     ft_printf("  %s", queue[i]->name);

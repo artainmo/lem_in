@@ -48,7 +48,7 @@ void parsing(t_antFarm *af);
 
 void view_parsed(t_antFarm *af);
 void view_graph(t_antFarm *af);
-void view_stacks(t_room **queue, t_room **visited);
+void view_stacks(t_room **queue, t_room **visited, t_room **origin);
 
 void algo(t_antFarm *af);
 
