@@ -1,5 +1,57 @@
 #include "../lem_in.h"
 
+static char **find_connections(t_antFarm *af, char *room)
+{
+  t_tunnel *iter;
+  char **conns;
+
+  conns = NULL;
+  iter = af->tunnels;
+  while (iter)
+  {
+    if (ft_strcmp(iter->room1, room)) {
+      if (!(conns = add_end_ds(conns, iter->room2)))
+        ft_malloc_error();
+    } else if (ft_strcmp(iter->room2, room)) {
+      if (!(conns = add_end_ds(conns, iter->room1)))
+        ft_malloc_error();
+    }
+    iter = iter->next;
+  }
+  return conns;
+}
+
+static t_room **create_connections(t_antFarm *af, t_room *room)
+{
+  t_room **conn;
+  char **conn_names;
+
+  conn_names = find_connections(af, room->name);
+  if (!(conn = malloc(sizeof(t_room *) * ft_len_ds(conn_names) + 1)))
+    ft_malloc_error();
+  for (int i = 0; i < ft_len_ds(conn_names); i++)
+  {
+    if (!(conn[i] = get_room(af, conn_names[i])))
+      ft_error("lem-in: Error: Intern error room not found.\n");
+  }
+  free_ds(conn_names);
+  return conn;
+}
+
+static void create_graph(t_antFarm *af)
+{
+  t_room *iter;
+
+  iter = af->rooms;
+  af->start_room->connections = create_connections(af, af->start_room);
+  af->end_room->connections = create_connections(af, af->end_room);
+  while (iter)
+  {
+    iter->connections = create_connections(af, iter);
+    iter = iter->next;
+  }
+}
+
 static int double_room_coordinate(t_antFarm *af, int x, int y)
 {
   t_room *iter;
@@ -160,4 +212,5 @@ void parsing(t_antFarm *af)
     free(line);
   }
   verify_antFarm(af);
+  create_graph(af);
 }

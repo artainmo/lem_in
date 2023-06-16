@@ -21,6 +21,7 @@ void free_antFarm(t_antFarm *af)
   {
     af->rooms = af->rooms->next;
     free(tmp1->name);
+    free(tmp1->connections);
     free(tmp1);
     tmp1 = af->rooms;
   }
@@ -45,6 +46,8 @@ t_room *create_room(char *name, int pos_x, int pos_y)
   room->pos_x = pos_x;
   room->pos_y = pos_y;
   room->next = NULL;
+  room->ants = 0;
+  room->connections = NULL;
   return room;
 }
 
@@ -106,4 +109,88 @@ t_room *get_room(t_antFarm *af, char *name)
     iter = iter->next;
   }
   return NULL;
+}
+
+int room_amount(t_antFarm *af)
+{
+  t_room *iter;
+  int amount;
+
+  amount = 2;
+  iter = af->rooms;
+  while (iter)
+  {
+    amount++;
+    iter = iter->next;
+  }
+  return amount;
+}
+
+void add_room_front_array(t_room **array, t_room *room)
+{
+  int i;
+  t_room *tmp;
+  t_room *tmp2;
+
+  i = 0;
+  if (!array[0])
+  {
+    array[0] = room;
+    array[1] = NULL;
+    return ;
+  }
+  tmp2 = array[0];
+  array[0] = room;
+  while (array[i])
+  {
+    tmp = array[i+1];
+    array[i+1] = tmp2;
+    tmp2 = tmp;
+    i++;
+  }
+}
+
+void add_room_end_array(t_room **array, t_room *room)
+{
+  int i;
+
+  i = 0;
+  if (!array[0])
+  {
+    array[0] = room;
+    array[1] = NULL;
+    return ;
+  }
+  while (array[i])
+    i++;
+  array[i] = room;
+  array[i+1] = NULL;
+}
+
+void remove_room_front_array(t_room **array)
+{
+  int i;
+
+  i = 0;
+  if (!array[0])
+    return ;
+  while (array[i])
+  {
+    array[i] = array[i+1];
+    i++;
+  }
+}
+
+int room_in_array(t_room **array, t_room *room)
+{
+  int i;
+
+  i = 0;
+  while (array[i])
+  {
+    if (ft_strcmp(array[i]->name, room->name))
+      return 1;
+    i++;
+  }
+  return 0;
 }
