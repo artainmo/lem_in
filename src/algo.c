@@ -1,11 +1,12 @@
 #include "../lem_in.h"
 
-static t_room *shortest_path_next_room(t_room **visited, t_room **origin, t_room *final)
+static void shortest_path(t_room **visited, t_room **origin, t_room *final, t_room **path)
 {
   int i;
   t_room *search;
 
   search = final;
+  add_room_front_array(path, final);
   while (19)
   {
     i = 0;
@@ -17,16 +18,17 @@ static t_room *shortest_path_next_room(t_room **visited, t_room **origin, t_room
     if (ft_strcmp(origin[0]->name, origin[i]->name)) //If we arrive to starting room we know the next room
       break ;
     search = origin[i];
+    add_room_front_array(path, origin[i]);
   }
-  return search;
 }
 
-static t_room *ant_move(t_antFarm *af, t_room *ant_room) //Here we use the "Breadth First Search" algorithm
+static t_room **ant_move(t_antFarm *af, t_room *ant_room,
+      t_room ***prior_ants_paths) //Here we use the "Breadth First Search" algorithm
 {
   t_room **visited;
   t_room **origin;
   t_room **queue;
-  t_room *next_room;
+  t_room **path;
   int i;
 
   if (!(visited = malloc(sizeof(t_room *) * room_amount(af) + 1)))
@@ -38,6 +40,9 @@ static t_room *ant_move(t_antFarm *af, t_room *ant_room) //Here we use the "Brea
   if (!(origin = malloc(sizeof(t_room *) * room_amount(af) + 1)))
     ft_malloc_error();
   *origin = NULL;
+  if (!(path = malloc(sizeof(t_room *) * room_amount(af) + 1)))
+    ft_malloc_error();
+  *path = NULL;
   add_room_end_array(origin, ant_room);
   add_room_end_array(visited, ant_room);
   add_room_end_array(queue, ant_room);
@@ -49,12 +54,26 @@ static t_room *ant_move(t_antFarm *af, t_room *ant_room) //Here we use the "Brea
     {
       if (ft_strcmp(queue[0]->connections[i]->name, af->end_room->name))
       {
-        if (queue[0] == ant_room) return af->end_room;
-        next_room = shortest_path_next_room(visited, origin, queue[0]);
+        if (queue[0] == ant_room) {
+          path[0] = ant_room;
+          path[1] = af->end_room;
+          path[2] = NULL;
+          // view_path(path, 1);
+          // exit(0);
+          free(visited);
+          free(origin);
+          free(queue);
+          return path;
+        }
+        shortest_path(visited, origin, queue[0], path);
+        add_room_front_array(path, af->start_room);
+        add_room_end_array(path, af->end_room);
+        // view_path(path, 1);
+        // exit(0);
         free(visited);
         free(origin);
         free(queue);
-        return next_room;
+        return path;
       }
       if (!queue[0]->connections[i]->ants && //If the room is already filled with ant neglect it
             !room_in_array(visited, queue[0]->connections[i])) //If you already visited the room neglect it
@@ -70,33 +89,22 @@ static t_room *ant_move(t_antFarm *af, t_room *ant_room) //Here we use the "Brea
   free(visited);
   free(origin);
   free(queue);
-  return ant_room;
+  free(path);
+  return NULL;
 }
 
 void algo(t_antFarm *af)
 {
-  t_room **ant_room;
-  t_room *old_room;
+  t_room ***ant_path;
 
-  if (ant_move(af, af->start_room) == af->start_room)
-    ft_error("lem-in: Error: Start and end room are not linked.\n");
-  if (!(ant_room = malloc(sizeof(t_room *) * af->ants_amount)))
+  if (!(ant_path = malloc(sizeof(t_room *) * af->ants_amount)))
     ft_malloc_error();
-  for (int i = 0; i < af->ants_amount; i++) { ant_room[i] = af->start_room; }
-  while (af->end_room->ants != af->ants_amount)
-  {
-    for (int ant = 1; ant <= af->ants_amount; ant++)
-    {
-      old_room = ant_room[ant-1];
-      ant_room[ant-1] = ant_move(af, ant_room[ant-1]);
-      if (!ft_strcmp(old_room->name, ant_room[ant-1]->name))
-      {
-        old_room->ants = 0;
-        ant_room[ant-1]->ants = ant;
-        ft_printf("L%d-%s ", ant, ant_room[ant-1]->name);
-      }
-    }
-    ft_printf("\n");
-  }
-  free(ant_room);
+  ant_path[0] = NULL;
+  if (!ant_move(af, af->start_room, ant_path))
+    ft_error("lem-in: Error: Start and end room are not linked.\n");
+  for (int ant = 1; ant <= af->ants_amount; ant++)
+      ant_path[ant-1] = ant_move(af, af->start_room, ant_path);
+  display_paths(ant_path, af->ants_amount);
+  for (int i = 0; i < af->ants_amount; i++) { free(ant_path[i]); }
+  free(ant_path);
 }
