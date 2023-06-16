@@ -44,7 +44,7 @@ static t_room *ant_move(t_antFarm *af, t_room *ant_room) //Here we use the "Brea
   while (queue[0])
   {
     i = 0;
-    // view_stacks(queue, visited, origin);
+    view_stacks(queue, visited, origin);
     while (queue[0]->connections[i])
     {
       if (ft_strcmp(queue[0]->connections[i]->name, af->end_room->name))

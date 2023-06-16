@@ -19,7 +19,7 @@ void view_stacks(t_room **queue, t_room **visited, t_room **origin)
     ft_printf("  %s", queue[i]->name);
     i++;
   }
-  ft_printf("\n\n");
+  ft_printf("\n");
 }
 
 
