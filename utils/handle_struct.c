@@ -46,7 +46,6 @@ t_room *create_room(char *name, int pos_x, int pos_y)
   room->pos_x = pos_x;
   room->pos_y = pos_y;
   room->next = NULL;
-  room->ants = 0;
   room->connections = NULL;
   return room;
 }

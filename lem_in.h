@@ -11,7 +11,6 @@ typedef struct s_room
   int pos_x;
   int pos_y;
   struct s_room *next; //Linked list
-  int ants;
   struct s_room **connections; //To create a graph. Represents connections between rooms by tunnels.
 } t_room;
 

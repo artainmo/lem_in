@@ -6,7 +6,7 @@ void view_path(t_room **path, int ant)
 
   i = 0;
   ft_printf("Path Ant: %d\n", ant);
-  while (path[i])
+  while (path && path[i])
   {
     if (path[i+1])
       ft_printf(" %s ->", path[i]->name);
@@ -32,7 +32,7 @@ void view_stacks(t_room **queue, t_room **visited, t_room **origin)
 
   i = 0;
   ft_printf("Visited:\n");
-  while (visited[i])
+  while (visited && visited[i])
   {
     ft_printf("  %s:%s", origin[i]->name, visited[i]->name);
     i++;
@@ -40,7 +40,7 @@ void view_stacks(t_room **queue, t_room **visited, t_room **origin)
   ft_printf("\n");
   i = 0;
   ft_printf("Queue/Stack:\n");
-  while (queue[i])
+  while (queue && queue[i])
   {
     ft_printf("  %s", queue[i]->name);
     i++;

@@ -1,5 +1,50 @@
 #include "../lem_in.h"
 
+static int timing(t_room **visited, t_room **origin, t_room *final, t_room *start)
+{
+  int i;
+  int _time;
+  t_room *search;
+
+  _time = 1;
+  if (final == start)
+    return 0;
+  search = final;
+  while (19)
+  {
+    i = 0;
+    while (visited[i] && !ft_strcmp(visited[i]->name, search->name))
+      i++;
+    // ft_printf("%s:%s\n", origin[i]->name, visited[i]->name);
+    if (!visited[i] || !origin[i])
+      ft_error("lem-in: Error: Internal error find shortest path.\n");
+    if (ft_strcmp(origin[0]->name, origin[i]->name)) //If we arrive to starting room we know the next room
+      break ;
+    search = origin[i];
+    _time++;
+  }
+  return _time;
+}
+
+static int ant_collision(t_room *next_room, t_room ***prior_ants_paths,
+      t_room **visited, t_room **origin, t_room *mother_room, t_antFarm *af)
+{
+  int _time;
+
+  if (!prior_ants_paths || !prior_ants_paths[0])
+    return 0;
+  _time = timing(visited, origin, mother_room, af->start_room) + 1;
+  // ft_printf("\nROOM: %s:%s\nTIMING: %d\n", mother_room->name, next_room->name, _time);
+  // view_stacks(NULL, visited, origin);
+  for (int i = 0; prior_ants_paths[i] ; i++)
+  {
+    if (prior_ants_paths[i][_time] == next_room)
+      return 1;
+  }
+  (void)next_room;
+  return 0;
+}
+
 static void shortest_path(t_room **visited, t_room **origin, t_room *final, t_room **path)
 {
   int i;
@@ -42,14 +87,14 @@ static t_room **ant_move(t_antFarm *af, t_room *ant_room,
   *origin = NULL;
   if (!(path = malloc(sizeof(t_room *) * room_amount(af) + 1)))
     ft_malloc_error();
-  *path = NULL;
+  for (int l = 0; l <= room_amount(af) + 1; l++) { path[l] = NULL; }
   add_room_end_array(origin, ant_room);
   add_room_end_array(visited, ant_room);
   add_room_end_array(queue, ant_room);
   while (queue[0])
   {
     i = 0;
-    view_stacks(queue, visited, origin);
+    // view_stacks(queue, visited, origin);
     while (queue[0]->connections[i])
     {
       if (ft_strcmp(queue[0]->connections[i]->name, af->end_room->name))
@@ -75,9 +120,12 @@ static t_room **ant_move(t_antFarm *af, t_room *ant_room,
         free(queue);
         return path;
       }
-      if (!queue[0]->connections[i]->ants && //If the room is already filled with ant neglect it
-            !room_in_array(visited, queue[0]->connections[i])) //If you already visited the room neglect it
-      {
+      if (room_in_array(visited, queue[0]->connections[i]) || //If you already visited the room neglect it
+            ant_collision(queue[0]->connections[i], prior_ants_paths, //If the room is already filled with ant neglect it
+            visited, origin, queue[0], af)) {
+        i++;
+        continue;
+      } else {
         add_room_end_array(queue, queue[0]->connections[i]);
         add_room_end_array(origin, queue[0]);
         add_room_end_array(visited, queue[0]->connections[i]);
@@ -103,7 +151,10 @@ void algo(t_antFarm *af)
   if (!ant_move(af, af->start_room, ant_path))
     ft_error("lem-in: Error: Start and end room are not linked.\n");
   for (int ant = 1; ant <= af->ants_amount; ant++)
+  {
       ant_path[ant-1] = ant_move(af, af->start_room, ant_path);
+      ant_path[ant] = NULL;
+  }
   display_paths(ant_path, af->ants_amount);
   for (int i = 0; i < af->ants_amount; i++) { free(ant_path[i]); }
   free(ant_path);
