@@ -24,12 +24,12 @@ void view_path(t_room **path, int ant)
   ft_printf("\n");
 }
 
-void display_paths(t_room ***ant_path, int len)
+void display_paths(t_room ***ant_path)
 {
   int i;
 
   i = 0;
-  while (i < len)
+  while (ant_path[i])
   {
     view_path(ant_path[i], i+1);
     i++;

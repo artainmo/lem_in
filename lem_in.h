@@ -51,7 +51,7 @@ void view_parsed(t_antFarm *af);
 void view_graph(t_antFarm *af);
 void view_stacks(t_room **queue, t_room **visited, t_room **origin);
 void view_path(t_room **path, int ant);
-void display_paths(t_room ***ant_path, int len);
+void display_paths(t_room ***ant_path);
 
 void algo(t_antFarm *af);
 

@@ -1,5 +1,7 @@
 #include "../lem_in.h"
 
+int g_ant; //Used for debugging
+
 static int timing(t_room **visited, t_room **origin, t_room *final, t_room *start)
 {
   int i;
@@ -7,9 +9,9 @@ static int timing(t_room **visited, t_room **origin, t_room *final, t_room *star
   int occurence;
   t_room *search;
 
-  _time = 1;
-  if (final == start && room_array_len(visited) == 1)
-    return 1;
+  _time = 0;
+  if (final == start)
+    return (room_array_len(visited) - 1);
   search = final;
   while (19)
   {
@@ -21,7 +23,7 @@ static int timing(t_room **visited, t_room **origin, t_room *final, t_room *star
     occurence = room_occurence(visited, origin[i]);
     while (occurence) //If multiple instances follow of same room, you know he stayed in that round for multiple rounds
     {
-      ft_printf("OCC: %s:%s\n", origin[i]->name, visited[i]->name);
+      // ft_printf("OCC: %s:%s\n", origin[i]->name, visited[i]->name);
       _time++;
       occurence--;
     }
@@ -40,14 +42,20 @@ static int ant_collision(t_room *next_room, t_room ***prior_ants_paths,
   if (!prior_ants_paths || !prior_ants_paths[0])
     return 0;
   _time = timing(visited, origin, mother_room, af->start_room);
-  ft_printf("\nROOM: %s:%s\nTIMING: %d\n", mother_room->name, next_room->name, _time);
-  view_stacks(NULL, visited, origin);
+  // if (g_ant == 3)
+  // {
+  //   ft_printf("\nROOM: %s:%s\nTIMING: %d\n", mother_room->name, next_room->name, _time);
+  //   view_stacks(NULL, visited, origin);
+  //   // ft_printf("Time: %d\n", _time);
+  //   // display_paths(prior_ants_paths);
+  // }
   for (int i = 0; prior_ants_paths[i] ; i++)
   {
-    if (prior_ants_paths[i][_time] == next_room)
+    // if (g_ant == 3)
+    //   ft_printf("COLLISION? %s|%s\n", prior_ants_paths[i][_time]->name, next_room->name);
+    if (prior_ants_paths[i][_time+1] == next_room)
       return 1;
   }
-  (void)next_room;
   return 0;
 }
 
@@ -118,7 +126,8 @@ static t_room **ant_move(t_antFarm *af, t_room *ant_room,
       add_room_end_array(visited, current);
     }
     i = 0;
-    // view_stacks(queue, visited, origin);
+    // if (g_ant == 3)
+    //   view_stacks(queue, visited, origin);
     while (queue[0]->connections[i])
     {
       if (ft_strcmp(queue[0]->connections[i]->name, af->end_room->name))
@@ -175,11 +184,12 @@ void algo(t_antFarm *af)
   //   ft_error("lem-in: Error: Start and end room are not linked.\n");
   for (int ant = 1; ant <= af->ants_amount; ant++)
   {
+      g_ant = ant;
       if (!(ant_path[ant-1] = ant_move(af, af->start_room, ant_path)))
         ft_error("lem-in: Error: Start and end room are not linked.\n");
       ant_path[ant] = NULL;
   }
-  display_paths(ant_path, af->ants_amount);
+  display_paths(ant_path);
   for (int i = 0; i < af->ants_amount; i++) { free(ant_path[i]); }
   free(ant_path);
 }
