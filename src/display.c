@@ -1,5 +1,20 @@
 #include "../lem_in.h"
 
+void display_results(t_room ***ant_path)
+{
+  if (!ant_path)
+    return ;
+  for (int l = 1; ant_path[path_array_len(ant_path)-1][l]; l++)
+  {
+    for (int i = 0; ant_path[i]; i++)
+    {
+      if (l < room_array_len(ant_path[i]) && ant_path[i][l] != ant_path[i][l-1])
+        ft_printf("L%d-%s ", i+1, ant_path[i][l]->name);
+    }
+    ft_printf("\n");
+  }
+}
+
 void view_path(t_room **path, int ant)
 {
   int i;
@@ -34,7 +49,6 @@ void display_paths(t_room ***ant_path)
     view_path(ant_path[i], i+1);
     i++;
   }
-  // ft_printf("L%d-%s ", ant, ant_room[ant-1]->name);
 }
 
 void view_stacks(t_room **queue, t_room **visited, t_room **origin)

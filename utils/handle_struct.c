@@ -171,7 +171,7 @@ void remove_room_front_array(t_room **array)
   int i;
 
   i = 0;
-  if (!array[0])
+  if (!array || !array[0])
     return ;
   while (array[i])
   {
@@ -185,7 +185,7 @@ int room_in_array(t_room **array, t_room *room)
   int i;
 
   i = 0;
-  while (array[i])
+  while (array && array[i])
   {
     if (ft_strcmp(array[i]->name, room->name))
       return 1;
@@ -199,7 +199,17 @@ int room_array_len(t_room **rooms)
   int i;
 
   i = 0;
-  while (rooms[i])
+  while (rooms && rooms[i])
+    i++;
+  return i;
+}
+
+int path_array_len(t_room ***paths)
+{
+  int i;
+
+  i = 0;
+  while (paths && paths[i])
     i++;
   return i;
 }
@@ -211,7 +221,7 @@ int room_occurence(t_room **rooms, t_room *room)
 
   i = 0;
   occurence = 0;
-  while (rooms[i])
+  while (rooms && rooms[i])
   {
     if (rooms[i] == room)
       occurence++;

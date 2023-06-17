@@ -43,6 +43,7 @@ void add_room_end_array(t_room **array, t_room *room);
 void remove_room_front_array(t_room **array);
 int room_in_array(t_room **array, t_room *room);
 int room_array_len(t_room **rooms);
+int path_array_len(t_room ***paths);
 int room_occurence(t_room **rooms, t_room *room);
 
 void parsing(t_antFarm *af);
@@ -52,6 +53,7 @@ void view_graph(t_antFarm *af);
 void view_stacks(t_room **queue, t_room **visited, t_room **origin);
 void view_path(t_room **path, int ant);
 void display_paths(t_room ***ant_path);
+void display_results(t_room ***ant_path);
 
 void algo(t_antFarm *af);
 

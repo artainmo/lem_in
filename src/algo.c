@@ -189,7 +189,7 @@ void algo(t_antFarm *af)
         ft_error("lem-in: Error: Start and end room are not linked.\n");
       ant_path[ant] = NULL;
   }
-  display_paths(ant_path);
+  display_results(ant_path);
   for (int i = 0; i < af->ants_amount; i++) { free(ant_path[i]); }
   free(ant_path);
 }
