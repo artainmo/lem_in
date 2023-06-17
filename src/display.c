@@ -2,9 +2,12 @@
 
 void display_results(t_room ***ant_path)
 {
+  int len;
+
   if (!ant_path)
     return ;
-  for (int l = 1; ant_path[path_array_len(ant_path)-1][l]; l++)
+  len = path_array_len(ant_path) - 1;
+  for (int l = 1; ant_path[len][l]; l++)
   {
     for (int i = 0; ant_path[i]; i++)
     {
