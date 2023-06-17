@@ -193,3 +193,29 @@ int room_in_array(t_room **array, t_room *room)
   }
   return 0;
 }
+
+int room_array_len(t_room **rooms)
+{
+  int i;
+
+  i = 0;
+  while (rooms[i])
+    i++;
+  return i;
+}
+
+int room_occurence(t_room **rooms, t_room *room)
+{
+  int i;
+  int occurence;
+
+  i = 0;
+  occurence = 0;
+  while (rooms[i])
+  {
+    if (rooms[i] == room)
+      occurence++;
+    i++;
+  }
+  return occurence;
+}

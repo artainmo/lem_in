@@ -25,15 +25,19 @@ static t_room **create_connections(t_antFarm *af, t_room *room)
 {
   t_room **conn;
   char **conn_names;
+  int i;
 
+  i = 0;
   conn_names = find_connections(af, room->name);
-  if (!(conn = malloc(sizeof(t_room *) * ft_len_ds(conn_names) + 1)))
+  if (!(conn = malloc(sizeof(t_room *) * (ft_len_ds(conn_names) + 1))))
     ft_malloc_error();
-  for (int i = 0; i < ft_len_ds(conn_names); i++)
+  while (i < ft_len_ds(conn_names))
   {
     if (!(conn[i] = get_room(af, conn_names[i])))
       ft_error("lem-in: Error: Intern error room not found.\n");
+    i++;
   }
+  conn[i] = NULL;
   free_ds(conn_names);
   return conn;
 }

@@ -42,6 +42,8 @@ void add_room_front_array(t_room **array, t_room *room);
 void add_room_end_array(t_room **array, t_room *room);
 void remove_room_front_array(t_room **array);
 int room_in_array(t_room **array, t_room *room);
+int room_array_len(t_room **rooms);
+int room_occurence(t_room **rooms, t_room *room);
 
 void parsing(t_antFarm *af);
 

@@ -3,9 +3,16 @@
 void view_path(t_room **path, int ant)
 {
   int i;
+  // char *conversion;
 
   i = 0;
-  ft_printf("Path Ant: %d\n", ant);
+  // if (!(conversion = ft_itoa(ant)))
+  //   ft_malloc_error();
+  // write(1, "Path Ant: ", 10);
+  // write(1, conversion, ft_strlen(conversion));
+  // write(1, "\n", 1);
+  // free(conversion);
+  printf("Path Ant: %d\n", ant); //My personal printf bugs... However bug is probably related not to printf itself but to prior code memory allocation problem...
   while (path && path[i])
   {
     if (path[i+1])
@@ -19,9 +26,13 @@ void view_path(t_room **path, int ant)
 
 void display_paths(t_room ***ant_path, int len)
 {
-  for (int i = 0; i < len; i++)
+  int i;
+
+  i = 0;
+  while (i < len)
   {
     view_path(ant_path[i], i+1);
+    i++;
   }
   // ft_printf("L%d-%s ", ant, ant_room[ant-1]->name);
 }
