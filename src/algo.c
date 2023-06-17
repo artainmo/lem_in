@@ -90,16 +90,16 @@ static t_room **ant_move(t_antFarm *af, t_room *ant_room,
   t_room *current;
   int i;
 
-  if (!(visited = malloc(sizeof(t_room *) * room_amount(af) + 1)))
+  if (!(visited = malloc(sizeof(t_room *) * (room_amount(af) + 3) * af->ants_amount)))
     ft_malloc_error();
   *visited = NULL;
-  if (!(queue = malloc(sizeof(t_room *) * room_amount(af) + 1)))
+  if (!(queue = malloc(sizeof(t_room *) * (room_amount(af) + 3) * af->ants_amount)))
     ft_malloc_error();
   *queue = NULL;
-  if (!(origin = malloc(sizeof(t_room *) * room_amount(af) + 1)))
+  if (!(origin = malloc(sizeof(t_room *) * (room_amount(af) + 3) * af->ants_amount)))
     ft_malloc_error();
   *origin = NULL;
-  if (!(path = malloc(sizeof(t_room *) * room_amount(af) + 1)))
+  if (!(path = malloc(sizeof(t_room *) * (room_amount(af) + 3) * af->ants_amount)))
     ft_malloc_error();
   for (int l = 0; l <= room_amount(af) + 1; l++) { path[l] = NULL; }
   add_room_end_array(origin, ant_room);
