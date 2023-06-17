@@ -16,7 +16,7 @@ static int timing(t_room **visited, t_room **origin, t_room *final, t_room *star
   while (19)
   {
     i = 0;
-    while (visited[i] && !ft_strcmp(visited[i]->name, search->name))
+    while (visited[i] && visited[i] != search)
       i++;
     if (!visited[i] || !origin[i])
       ft_error("lem-in: Error: Internal error find shortest path.\n");
@@ -27,7 +27,7 @@ static int timing(t_room **visited, t_room **origin, t_room *final, t_room *star
       _time++;
       occurence--;
     }
-    if (ft_strcmp(origin[0]->name, origin[i]->name))
+    if (origin[0] == origin[i])
       break ;
     search = origin[i];
   }
@@ -70,7 +70,7 @@ static void shortest_path(t_room **visited, t_room **origin, t_room *final, t_ro
   while (19)
   {
     i = 0;
-    while (visited[i] && !ft_strcmp(visited[i]->name, search->name))
+    while (visited[i] && visited[i] != search)
       i++;
     // ft_printf("O %s:%s\n", origin[i]->name, visited[i]->name);
     if (!visited[i] || !origin[i])
@@ -82,7 +82,7 @@ static void shortest_path(t_room **visited, t_room **origin, t_room *final, t_ro
       add_room_front_array(path, origin[i]);
       occurence--;
     }
-    if (ft_strcmp(origin[0]->name, origin[i]->name)) //If we arrive to starting room we know the next room
+    if (origin[0] == origin[i]) //If we arrive to starting room we know the next room
       break ;
     search = origin[i];
   }
@@ -130,7 +130,7 @@ static t_room **ant_move(t_antFarm *af, t_room *ant_room,
     //   view_stacks(queue, visited, origin);
     while (queue[0]->connections[i])
     {
-      if (ft_strcmp(queue[0]->connections[i]->name, af->end_room->name))
+      if (queue[0]->connections[i] == af->end_room)
       {
         if (queue[0] == ant_room) {
           path[0] = ant_room;

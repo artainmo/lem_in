@@ -76,20 +76,20 @@ static int double_room_coordinate(t_antFarm *af, int x, int y)
   return occurence > 1 ? 1 : 0;
 }
 
-static int double_room_name(t_antFarm *af, char *name)
+static int double_room_name(t_antFarm *af, t_room *room)
 {
   t_room *iter;
   int occurence;
 
   occurence = 0;
   iter = af->rooms;
-  if (ft_strcmp(name, af->start_room->name))
+  if (room == af->start_room)
     occurence++;
-  if (ft_strcmp(name, af->end_room->name))
+  if (room == af->end_room)
     occurence++;
   while (iter)
   {
-    if (ft_strcmp(name, iter->name))
+    if (room == iter)
       occurence++;
     iter = iter->next;
   }
@@ -99,7 +99,7 @@ static int double_room_name(t_antFarm *af, char *name)
 static void room_verif(t_antFarm *af, t_room *iter1)
 {
   //Verify no rooms with same name exist
-  if (double_room_name(af, iter1->name))
+  if (double_room_name(af, iter1))
     ft_error("lem-in: Error: Double room name.\n");
   //Verify no room's name start with L or are empty
   if (ft_strlen(iter1->name) < 1 || iter1->name[0] == 'L')

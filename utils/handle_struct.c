@@ -187,7 +187,7 @@ int room_in_array(t_room **array, t_room *room)
   i = 0;
   while (array && array[i])
   {
-    if (ft_strcmp(array[i]->name, room->name))
+    if (array[i] == room)
       return 1;
     i++;
   }
