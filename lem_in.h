@@ -46,7 +46,7 @@ int room_array_len(t_room **rooms);
 int path_array_len(t_room ***paths);
 int room_occurence(t_room **rooms, t_room *room);
 
-void parsing(t_antFarm *af);
+void parsing(t_antFarm *af, int quit_mode);
 
 void view_parsed(t_antFarm *af);
 void view_graph(t_antFarm *af);

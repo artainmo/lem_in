@@ -205,7 +205,7 @@ static void verify_input_line(t_antFarm *af, char *line, char *status)
   }
 }
 
-void parsing(t_antFarm *af)
+void parsing(t_antFarm *af, int quit_mode)
 {
   int ret;
   char *line;
@@ -216,11 +216,13 @@ void parsing(t_antFarm *af)
   {
     if (ret == -1)
       ft_errno();
-    ft_printf("%s\n", line); //Display ant-farm composition with commands (##...) and comments (#...)
+    if (!quit_mode)
+      ft_printf("%s\n", line); //Display ant-farm composition with commands (##...) and comments (#...)
     verify_input_line(af, line, status);
     free(line);
   }
-  write(1,"\n",1);
+  if (!quit_mode)
+    write(1,"\n",1);
   verify_antFarm(af);
   create_graph(af);
 }

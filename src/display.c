@@ -14,7 +14,7 @@ void display_results(t_room ***ant_path)
       if (l < room_array_len(ant_path[i]) && ant_path[i][l] != ant_path[i][l-1])
         ft_printf("L%d-%s ", i+1, ant_path[i][l]->name);
     }
-    ft_printf("\n");
+    write(1,"\n",1);
   }
 }
 
