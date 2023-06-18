@@ -83,13 +83,13 @@ static int double_room_name(t_antFarm *af, t_room *room)
 
   occurence = 0;
   iter = af->rooms;
-  if (room == af->start_room)
+  if (ft_strcmp(room->name, af->start_room->name))
     occurence++;
-  if (room == af->end_room)
+  if (ft_strcmp(room->name, af->end_room->name))
     occurence++;
   while (iter)
   {
-    if (room == iter)
+    if (ft_strcmp(room->name, iter->name))
       occurence++;
     iter = iter->next;
   }
@@ -117,11 +117,15 @@ static void verify_antFarm(t_antFarm *af)
   t_room *iter1;
   t_tunnel *iter2;
 
-  //Verify existence of start_room, end_room and at least one tunnel
+  //Verify existence of ants, start_room, end_room and at least one tunnel and room
+  if (!af->ants_amount)
+    ft_error("lem-in: Error: Missing ants.\n");
   if (!af->start_room)
     ft_error("lem-in: Error: Missing starting room.\n");
   if (!af->end_room)
     ft_error("lem-in: Error: Missing end room.\n");
+  if (!af->rooms)
+    ft_error("lem-in: Error: No in-between room.\n");
   if (!af->tunnels)
     ft_error("lem-in: Error: Missing tunnels.\n");
   room_verif(af, af->start_room);
@@ -174,7 +178,7 @@ static void verify_input_line(t_antFarm *af, char *line, char *status)
     if (ft_len_ds(split) != 3)
       ft_error("lem-in: Error: Room description does not contain 3 values.\n");
     if (!ft_str_isdigit(split[1]) || !ft_str_isdigit(split[2]))
-      ft_error("lem-in: Error: Room description coordinated are not numbers.\n");
+      ft_error("lem-in: Error: Room description coordinates are not numbers.\n");
     if (ft_strcmp(status, "rooms"))
         add_room(af, create_room(split[0], ft_atoi(split[1]), ft_atoi(split[2])));
     else if (ft_strcmp(status, "start"))
