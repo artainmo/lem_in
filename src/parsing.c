@@ -216,9 +216,11 @@ void parsing(t_antFarm *af)
   {
     if (ret == -1)
       ft_errno();
+    ft_printf("%s\n", line); //Display ant-farm composition with commands (##...) and comments (#...)
     verify_input_line(af, line, status);
     free(line);
   }
+  write(1,"\n",1);
   verify_antFarm(af);
   create_graph(af);
 }
