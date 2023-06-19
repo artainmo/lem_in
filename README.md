@@ -9,6 +9,7 @@ I chose the "Breadth First Search" (bfs) over the "Depth First Search" (dfs) bec
 As an adaptation to this project:
 * I deduce from the bfs' "visited" array and "origin" array (origin related to the "visited" array) the shortest path to the end-room.
 * I let each ant go through the graph using bfs but I block access to the nodes that were visited by prior ants at the same time.
+* If no accessible rooms are empty the ant waits in current room.
 
 ## Documentation
 [Depth First Search or DFS for a Graph](https://www.geeksforgeeks.org/depth-first-search-or-dfs-for-a-graph/)<br>
