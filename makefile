@@ -4,6 +4,7 @@ SRC = lem_in.c \
 			src/parsing.c \
 			src/display.c \
 			src/algo.c \
+			src/visualize_graph.c \
 			utils/handle_struct.c \
 			utils/get_next_line/get_next_line.c \
 			utils/get_next_line/get_next_line_utils.c

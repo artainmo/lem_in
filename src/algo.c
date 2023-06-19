@@ -115,6 +115,9 @@ static t_room **ant_move(t_antFarm *af, t_room *ant_room,
   add_room_end_array(queue, ant_room);
   while (19)
   {
+    // ft_printf("Current Ant: %d\n", g_ant);
+    // display_paths(prior_ants_paths);
+    // if (g_ant == 16) exit(0);
     if (!queue[0])
     {
       if (!prior_ants_paths[0])
@@ -173,7 +176,7 @@ static t_room **ant_move(t_antFarm *af, t_room *ant_room,
   return NULL;
 }
 
-void algo(t_antFarm *af)
+t_room ***algo(t_antFarm *af, int visu_mode)
 {
   t_room ***ant_path;
 
@@ -189,7 +192,13 @@ void algo(t_antFarm *af)
         ft_error("lem-in: Error: Start and end room are not linked.\n");
       ant_path[ant] = NULL;
   }
-  display_results(ant_path);
+  if (!visu_mode)
+    display_results(ant_path);
+  else if (visu_mode == 2)
+    display_paths(ant_path);
+  else
+    visualize_graph(af, ant_path);
   for (int i = 0; i < af->ants_amount; i++) { free(ant_path[i]); }
   free(ant_path);
+  return ant_path;
 }

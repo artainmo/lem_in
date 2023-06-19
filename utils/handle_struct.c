@@ -125,6 +125,21 @@ int room_amount(t_antFarm *af)
   return amount;
 }
 
+int tunnel_amount(t_antFarm *af)
+{
+  t_tunnel *iter;
+  int amount;
+
+  amount = 0;
+  iter = af->tunnels;
+  while (iter)
+  {
+    amount++;
+    iter = iter->next;
+  }
+  return amount;
+}
+
 void add_room_front_array(t_room **array, t_room *room)
 {
   int i;
@@ -200,7 +215,9 @@ int room_array_len(t_room **rooms)
 
   i = 0;
   while (rooms && rooms[i])
+  {
     i++;
+  }
   return i;
 }
 

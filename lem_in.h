@@ -38,6 +38,7 @@ void add_tunnel(t_antFarm *af, t_tunnel *tunnel);
 t_room *get_room(t_antFarm *af, char *name);
 void free_antFarm(t_antFarm *af);
 int room_amount(t_antFarm *af);
+int tunnel_amount(t_antFarm *af);
 void add_room_front_array(t_room **array, t_room *room);
 void add_room_end_array(t_room **array, t_room *room);
 void remove_room_front_array(t_room **array);
@@ -55,6 +56,8 @@ void view_path(t_room **path, int ant);
 void display_paths(t_room ***ant_path);
 void display_results(t_room ***ant_path);
 
-void algo(t_antFarm *af);
+t_room ***algo(t_antFarm *af, int visu_mode);
+
+void visualize_graph(t_antFarm *af, t_room ***ant_path);
 
 #endif
