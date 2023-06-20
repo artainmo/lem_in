@@ -48,7 +48,7 @@ int path_array_len(t_room ***paths);
 int room_occurence(t_room **rooms, t_room *room);
 t_room **path_cpy(t_room **rooms);
 
-void parsing(t_antFarm *af, int quit_mode);
+void parsing(t_antFarm *af, int quiet_mode);
 
 void view_parsed(t_antFarm *af);
 void view_graph(t_antFarm *af);
@@ -57,7 +57,7 @@ void view_path(t_room **path, int ant);
 void display_paths(t_room ***ant_path);
 void display_results(t_room ***ant_path);
 
-t_room ***algo(t_antFarm *af, int visu_mode);
+t_room ***algo(t_antFarm *af, int visu_mode, int quiet_mode);
 
 void visualize_graph(t_antFarm *af, t_room ***ant_path);
 

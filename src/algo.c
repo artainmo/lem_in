@@ -225,7 +225,6 @@ static t_room **ant_move(t_antFarm *af, t_room *ant_room,
           path[2] = NULL;
           // view_path(path, 1);
           // exit(0);
-          write(1,"s\n",2);
           free(visited);
           free(origin);
           free(queue);
@@ -235,11 +234,9 @@ static t_room **ant_move(t_antFarm *af, t_room *ant_room,
         add_room_end_array(path, af->end_room);
         // view_path(path, 1);
         // exit(0);
-        write(1,"r\n",2);
         free(visited);
         free(origin);
         free(queue);
-        write(1,"r1\n",3);
         return choose_path(path, alternative_paths);
       }
       if (room_in_array(visited, queue[0]->connections[i]) || //If you already visited the room neglect it
@@ -257,7 +254,6 @@ static t_room **ant_move(t_antFarm *af, t_room *ant_room,
     }
     remove_room_front_array(queue);
   }
-  write(1,"h\n",2);
   free(visited);
   free(origin);
   free(queue);
@@ -265,7 +261,7 @@ static t_room **ant_move(t_antFarm *af, t_room *ant_room,
   return NULL;
 }
 
-t_room ***algo(t_antFarm *af, int visu_mode)
+t_room ***algo(t_antFarm *af, int visu_mode, int quiet_mode)
 {
   t_room ***ant_path;
 
@@ -279,16 +275,14 @@ t_room ***algo(t_antFarm *af, int visu_mode)
       g_ant = ant;
       if (!(ant_path[ant-1] = ant_move(af, af->start_room, ant_path)))
         ft_error("lem-in: Error: Start and end room are not linked.\n");
-      write(1,"e1\n",3);
       ant_path[ant] = NULL;
   }
-  if (!visu_mode)
+  if (quiet_mode != 2 && !visu_mode)
     display_results(ant_path);
-  else if (visu_mode == 2)
+  else if (quiet_mode != 2 && visu_mode == 2)
     display_paths(ant_path);
-  else
+  else if (quiet_mode != 2)
     visualize_graph(af, ant_path);
-  write(1,"e2\n",3);
   for (int i = 0; i < af->ants_amount; i++) { free(ant_path[i]); }
   free(ant_path);
   return ant_path;

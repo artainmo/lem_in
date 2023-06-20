@@ -12,7 +12,13 @@ void display_results(t_room ***ant_path)
     for (int i = 0; ant_path[i]; i++)
     {
       if (l < room_array_len(ant_path[i]) && ant_path[i][l] != ant_path[i][l-1])
-        ft_printf("L%d-%s ", i+1, ant_path[i][l]->name);
+      {
+        ft_putstr_fd("L", 1);
+        ft_putnbr_fd(i+1, 1);
+        ft_putstr_fd("-", 1);
+        ft_putstr_fd(ant_path[i][l]->name, 1);
+        ft_putstr_fd(" ", 1);
+      }
     }
     write(1,"\n",1);
   }
@@ -30,13 +36,23 @@ void view_path(t_room **path, int ant)
   // write(1, conversion, ft_strlen(conversion));
   // write(1, "\n", 1);
   // free(conversion); //My personal printf bugged... However bug is probably related not to printf itself but to prior code memory allocation problem...
-  ft_printf("Path Ant: %d\n", ant);
+  // ft_printf("Path Ant: %d\n", ant);
+  ft_putstr_fd("Path Ant: ", 1);
+  ft_putnbr_fd(ant, 1);
+  ft_putstr_fd("\n", 1);
   while (path && path[i])
   {
     if (path[i+1])
-      ft_printf(" %s ->", path[i]->name);
+    {
+      ft_putstr_fd(" ", 1);
+      ft_putstr_fd(path[i]->name, 1);
+      ft_putstr_fd(" ->", 1);
+    }
     else
-      ft_printf(" %s", path[i]->name);
+    {
+      ft_putstr_fd(" ", 1);
+      ft_putstr_fd(path[i]->name, 1);
+    }
     i++;
   }
   ft_printf("\n");

@@ -22,3 +22,11 @@ Test
 echo '\033[0;36m./generator_osx --big-superposition\033[0m'
 ./generator_osx --big-superposition > generated.map
 Test
+
+echo '\033[0;36m./generator_osx --big (VERIFY TIME)\033[0m'
+./generator_osx --big > generated.map
+time ./../lem-in -q2 < generated.map
+
+echo '\033[0;36mtime ./generator_osx --big-superposition (VERIFY TIME)\033[0m'
+./generator_osx --big-superposition > generated.map
+time ./../lem-in -q2 < generated.map
