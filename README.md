@@ -17,6 +17,16 @@ As an adaptation to this project:
 I used the bfs (as explained above) to find all the non-overlapping paths that exist in the graph. Once I have all the paths I assign each ant the shortest one, knowing the paths become longer as ants take them due to having to wait for the path to become free.<br>
 This algorithm is way shorter than the previous one, it is way faster when the amount of ants is high because the prior algorithm did a bfs for each ant individually while this algorithm does one bfs for each non-overlapping path to be found.
 
+### Use
+```
+./lem-in < tests/subject.map
+./lem-in -v2 < tests/subject.map //Better way to visualize output
+./lem-in -v < tests/subject.map //Simple graph visualization in terminal
+./lem-in -q < tests/subject.map //Only display results
+./lem-in -q2 < tests/subject.map //Do not display
+cd tests && ./automated.sh //Launches advanced tests automatically
+```
+
 ## Documentation
 [Depth First Search or DFS for a Graph](https://www.geeksforgeeks.org/depth-first-search-or-dfs-for-a-graph/)<br>
 [Breadth First Search or BFS for a Graph](https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/)<br>
