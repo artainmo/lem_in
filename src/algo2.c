@@ -13,14 +13,14 @@ static t_room **find_shortest_path(t_room ***all_distinct_paths, int *len)
     {
       path = path_cpy(all_distinct_paths[i]);
       add_room_front_array(all_distinct_paths[i], all_distinct_paths[i][0]);
-      len[i]++;
+      len[i] += 1;
       return path;
     }
     i++;
   }
   path = path_cpy(all_distinct_paths[i]);
   add_room_front_array(all_distinct_paths[i], all_distinct_paths[i][0]);
-  len[i]++;
+  len[i] += 1;
   return path;
 }
 
@@ -99,7 +99,7 @@ static void find_all_distinct_paths(t_antFarm *af,
   i = 0;
   while ((all_distinct_paths[i] = find_distinct_path(af, max_potential_moves)))
   {
-    len[i] = path_array_len(all_distinct_paths);
+    len[i] = room_array_len(all_distinct_paths[i]);
     i++;
     all_distinct_paths[i] = NULL;
     len[i] = 0;
