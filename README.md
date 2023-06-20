@@ -3,7 +3,7 @@
 
 A program in c that takes an ant-farm description consisting of a start room, end room, rooms in between and tunnels between those rooms.<br>
 The ants need to move from start to end room in the shortest time possible, knowing in-between rooms can only contain one ant at a time.<br>
-We need to use graph-traversal-algorithms for this. I will implement the “Breadth First Search” algorithm and adapt it to this project of course. 
+We need to use graph-traversal-algorithms for this. I will implement the “Breadth First Search” algorithm and adapt it to this project of course.
 
 ### First algorithm
 I chose the "Breadth First Search" (bfs) over the "Depth First Search" (dfs) because the bfs goes through the graph layer by layer, which means once it finds the end-room you know it used the (or one of the) shortest path(s).<br>
@@ -24,6 +24,7 @@ This algorithm is way shorter than the previous one, it is way faster when the a
 ./lem-in -v < tests/subject.map //Simple graph visualization in terminal
 ./lem-in -q < tests/subject.map //Only display results
 ./lem-in -q2 < tests/subject.map //Do not display
+./lem-in -s < tests/subject3.map //Use the special algo (first algo), this one is better for small amount of ants
 cd tests && ./automated.sh //Launches advanced tests automatically
 ```
 
