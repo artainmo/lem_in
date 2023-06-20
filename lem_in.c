@@ -18,8 +18,6 @@ int main(int argc, char **argv)
     visu_mode = 2;
   init_struct_antFarm(&af);
   parsing(&af, quiet_mode);
-  // view_parsed(&af);
-  // view_graph(&af);
   algo2(&af, visu_mode, quiet_mode);
   free_antFarm(&af);
   return 0;

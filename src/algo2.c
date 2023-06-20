@@ -138,7 +138,8 @@ void algo2(t_antFarm *af, int visu_mode, int quiet_mode)
     display_paths(ant_path);
   else if (quiet_mode != 2)
     visualize_graph(af, ant_path);
-  // // for (int i = 0; i < af->ants_amount; i++) { free(ant_path[i]); }
-  // free(ant_path);
-  // //TODO free all_distinct_paths
+  for (int i = 0; i < af->ants_amount; i++) { free(ant_path[i]); }
+  free(ant_path);
+  for (int i = 0; all_distinct_paths[i]; i++) { free(all_distinct_paths[i]); }
+  free(all_distinct_paths);
 }
