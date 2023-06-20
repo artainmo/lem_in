@@ -246,3 +246,21 @@ int room_occurence(t_room **rooms, t_room *room)
   }
   return occurence;
 }
+
+t_room **path_cpy(t_room **rooms)
+{
+  t_room **new;
+  int i;
+
+  if (!rooms || !rooms[0])
+    return NULL;
+  if (!(new = malloc(sizeof(t_room *) * (room_array_len(rooms) + 1))))
+    ft_malloc_error();
+  i = 0;
+  while (rooms[i]) {
+    new[i] = rooms[i];
+    i++;
+  }
+  new[i] = NULL;
+  return new;
+}

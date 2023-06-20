@@ -46,6 +46,7 @@ int room_in_array(t_room **array, t_room *room);
 int room_array_len(t_room **rooms);
 int path_array_len(t_room ***paths);
 int room_occurence(t_room **rooms, t_room *room);
+t_room **path_cpy(t_room **rooms);
 
 void parsing(t_antFarm *af, int quit_mode);
 

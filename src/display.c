@@ -29,8 +29,8 @@ void view_path(t_room **path, int ant)
   // write(1, "Path Ant: ", 10);
   // write(1, conversion, ft_strlen(conversion));
   // write(1, "\n", 1);
-  // free(conversion);
-  printf("Path Ant: %d\n", ant); //My personal printf bugs... However bug is probably related not to printf itself but to prior code memory allocation problem...
+  // free(conversion); //My personal printf bugged... However bug is probably related not to printf itself but to prior code memory allocation problem...
+  ft_printf("Path Ant: %d\n", ant);
   while (path && path[i])
   {
     if (path[i+1])

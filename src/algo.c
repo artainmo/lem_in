@@ -151,14 +151,11 @@ static t_room **choose_path(t_room **path, t_room ***alternative_paths)
   }
   if (path && path != chosen_path)
     free(path);
-  // for (int i = 0; alternative_paths[i]; i++) {
-  //   if (alternative_paths[i] != chosen_path)
-  //     free(alternative_paths[i]);
-  // }
   free(alternative_paths);
   // view_path(chosen_path, -10);
   // // if (g_ant == 6)
   // //   exit(0);
+  // ft_printf("%s\n", chosen_path[0]->name);
   return chosen_path;
 }
 
@@ -204,7 +201,12 @@ static t_room **ant_move(t_antFarm *af, t_room *ant_room,
         break ;
       current = visited[room_array_len(visited)-1];
       if (current != af->start_room && room_array_len(current->connections) <= 1) //If the room has only one connection and is not the starting room you know this sole connection is the one behind him and because we won't go backwards he is stuck and thus we give him an alternative path
+      {
+        free(visited);
+        free(origin);
+        free(queue);
         return choose_path(NULL, alternative_paths);
+      }
       //If you are blocked due to the other ants, stay in same room
       add_room_end_array(queue, current);
       add_room_end_array(origin, current);
@@ -223,6 +225,7 @@ static t_room **ant_move(t_antFarm *af, t_room *ant_room,
           path[2] = NULL;
           // view_path(path, 1);
           // exit(0);
+          write(1,"s\n",2);
           free(visited);
           free(origin);
           free(queue);
@@ -232,9 +235,11 @@ static t_room **ant_move(t_antFarm *af, t_room *ant_room,
         add_room_end_array(path, af->end_room);
         // view_path(path, 1);
         // exit(0);
+        write(1,"r\n",2);
         free(visited);
         free(origin);
         free(queue);
+        write(1,"r1\n",3);
         return choose_path(path, alternative_paths);
       }
       if (room_in_array(visited, queue[0]->connections[i]) || //If you already visited the room neglect it
@@ -252,6 +257,7 @@ static t_room **ant_move(t_antFarm *af, t_room *ant_room,
     }
     remove_room_front_array(queue);
   }
+  write(1,"h\n",2);
   free(visited);
   free(origin);
   free(queue);
@@ -273,6 +279,7 @@ t_room ***algo(t_antFarm *af, int visu_mode)
       g_ant = ant;
       if (!(ant_path[ant-1] = ant_move(af, af->start_room, ant_path)))
         ft_error("lem-in: Error: Start and end room are not linked.\n");
+      write(1,"e1\n",3);
       ant_path[ant] = NULL;
   }
   if (!visu_mode)
@@ -281,6 +288,7 @@ t_room ***algo(t_antFarm *af, int visu_mode)
     display_paths(ant_path);
   else
     visualize_graph(af, ant_path);
+  write(1,"e2\n",3);
   for (int i = 0; i < af->ants_amount; i++) { free(ant_path[i]); }
   free(ant_path);
   return ant_path;
