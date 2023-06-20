@@ -12,6 +12,7 @@ typedef struct s_room
   int pos_y;
   struct s_room *next; //Linked list
   struct s_room **connections; //To create a graph. Represents connections between rooms by tunnels.
+  int locked;
 } t_room;
 
 typedef struct s_tunnel
@@ -47,6 +48,8 @@ int room_array_len(t_room **rooms);
 int path_array_len(t_room ***paths);
 int room_occurence(t_room **rooms, t_room *room);
 t_room **path_cpy(t_room **rooms);
+void unlock_all_rooms(t_room *rooms);
+void lock_paths(t_room ***all_distinct_paths);
 
 void parsing(t_antFarm *af, int quiet_mode);
 
@@ -58,6 +61,7 @@ void display_paths(t_room ***ant_path);
 void display_results(t_room ***ant_path);
 
 t_room ***algo(t_antFarm *af, int visu_mode, int quiet_mode);
+void algo2(t_antFarm *af, int visu_mode, int quiet_mode);
 
 void visualize_graph(t_antFarm *af, t_room ***ant_path);
 

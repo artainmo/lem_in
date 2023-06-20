@@ -47,6 +47,7 @@ t_room *create_room(char *name, int pos_x, int pos_y)
   room->pos_y = pos_y;
   room->next = NULL;
   room->connections = NULL;
+  room->locked = 0;
   return room;
 }
 
@@ -254,7 +255,7 @@ t_room **path_cpy(t_room **rooms)
 
   if (!rooms || !rooms[0])
     return NULL;
-  if (!(new = malloc(sizeof(t_room *) * (room_array_len(rooms) + 1))))
+  if (!(new = malloc(sizeof(t_room) * (room_array_len(rooms) + 1))))
     ft_malloc_error();
   i = 0;
   while (rooms[i]) {
@@ -263,4 +264,34 @@ t_room **path_cpy(t_room **rooms)
   }
   new[i] = NULL;
   return new;
+}
+
+void unlock_all_rooms(t_room *rooms)
+{
+  t_room *iter;
+
+  iter = rooms;
+  while (iter)
+  {
+    iter->locked = 0;
+    iter = iter->next;
+  }
+}
+
+void lock_paths(t_room ***all_distinct_paths)
+{
+  int i;
+  int l;
+
+  i = 0;
+  while (all_distinct_paths[i])
+  {
+    l = 0;
+    while (all_distinct_paths[i][l])
+    {
+      all_distinct_paths[i][l]->locked = 1;
+      l++;
+    }
+    i++;
+  }
 }
