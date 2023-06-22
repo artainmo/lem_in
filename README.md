@@ -23,7 +23,7 @@ This algorithm is way shorter than the previous one, it is way faster when the a
 ./lem-in -v2 < tests/subject.map //Better way to visualize output
 ./lem-in -v < tests/subject.map //Simple graph visualization in terminal
 ./lem-in -q < tests/subject.map //Only display results
-./lem-in -q2 < tests/subject.map //Do not display
+./lem-in -q2 < tests/subject.map //Do not display nor input advanced checks (to test speed)
 ./lem-in -s < tests/subject3.map //Use the special algo (first algo), this one is better for small amount of ants
 cd tests && ./automated.sh //Launches advanced tests automatically
 ```
